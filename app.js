@@ -9,10 +9,13 @@ var BALL_IMG = '<img src="img/ball.png" />';
 var numOfBalls = 0;
 var gBoard;
 var gGamerPos;
+let gInterval;
 function initGame() {
   gGamerPos = { i: 2, j: 9 };
   gBoard = buildBoard();
   renderBoard(gBoard);
+
+  gInterval = setInterval(addBall, 2000);
 }
 
 function buildBoard() {
@@ -177,4 +180,23 @@ function increaseNumberOfBalls() {
 function renderNumberOfBalls(numOfBalls) {
   var elNumOfBalls = document.querySelector("#numOfBalls");
   elNumOfBalls.innerHTML = `balls: ${numOfBalls}`;
+}
+
+// Add a ball to the board
+function addBall() {
+  var emptyCells = [];
+  for (var i = 0; i < gBoard.length; i++) {
+    for (var j = 0; j < gBoard[0].length; j++) {
+      if (gBoard[i][j].gameElement === null && gBoard[i][j].type !== WALL) {
+        emptyCells.push({ i: i, j: j });
+      }
+    }
+  }
+  if (emptyCells.length === 0) return;
+
+  var randomIdx = Math.floor(Math.random() * emptyCells.length);
+  var randomEmptyCell = emptyCells[randomIdx];
+
+  gBoard[randomEmptyCell.i][randomEmptyCell.j].gameElement = BALL;
+  renderCell(randomEmptyCell, BALL_IMG);
 }
