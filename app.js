@@ -117,6 +117,9 @@ function moveTo(i, j) {
   ) {
     if (targetCell.gameElement === BALL) {
       increaseNumberOfBalls();
+      setTimeout(() => {
+        checkIfWin();
+      }, "100");
     }
 
     // MOVING from current position
@@ -132,9 +135,6 @@ function moveTo(i, j) {
     gBoard[gGamerPos.i][gGamerPos.j].gameElement = GAMER;
     // DOM:
     renderCell(gGamerPos, GAMER_IMG);
-    setTimeout(() => {
-      checkIfWin();
-    }, "0");
   } // else console.log('TOO FAR', iAbsDiff, jAbsDiff);
 }
 
@@ -209,4 +209,12 @@ function checkIfWin() {
   if (gBalls !== numOfBalls) return;
   clearInterval(gInterval);
   alert("Congratulations! You win!");
+}
+
+function restart() {
+  numOfBalls = 0;
+  renderNumberOfBalls(numOfBalls);
+  gBalls = 2;
+  clearInterval(gInterval);
+  initGame();
 }

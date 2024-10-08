@@ -18,3 +18,8 @@ body {
 .wall {
   background-color: rgb(118, 42, 165);
 }
+button {
+  margin: 10px;
+  padding: 10px;
+  font-size: 18px;
+}
