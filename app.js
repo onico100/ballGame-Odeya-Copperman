@@ -10,12 +10,13 @@ var numOfBalls = 0;
 var gBoard;
 var gGamerPos;
 let gInterval;
+let gBalls = 2;
 function initGame() {
   gGamerPos = { i: 2, j: 9 };
   gBoard = buildBoard();
   renderBoard(gBoard);
 
-  gInterval = setInterval(addBall, 2000);
+  gInterval = setInterval(addBall, 5000);
 }
 
 function buildBoard() {
@@ -116,7 +117,6 @@ function moveTo(i, j) {
   ) {
     if (targetCell.gameElement === BALL) {
       increaseNumberOfBalls();
-      console.log("Collecting!");
     }
 
     // MOVING from current position
@@ -132,6 +132,9 @@ function moveTo(i, j) {
     gBoard[gGamerPos.i][gGamerPos.j].gameElement = GAMER;
     // DOM:
     renderCell(gGamerPos, GAMER_IMG);
+    setTimeout(() => {
+      checkIfWin();
+    }, "0");
   } // else console.log('TOO FAR', iAbsDiff, jAbsDiff);
 }
 
@@ -199,4 +202,11 @@ function addBall() {
 
   gBoard[randomEmptyCell.i][randomEmptyCell.j].gameElement = BALL;
   renderCell(randomEmptyCell, BALL_IMG);
+  gBalls++; // increment
+}
+
+function checkIfWin() {
+  if (gBalls !== numOfBalls) return;
+  clearInterval(gInterval);
+  alert("Congratulations! You win!");
 }
