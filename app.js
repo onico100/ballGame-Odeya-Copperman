@@ -6,6 +6,7 @@ var GAMER = "GAMER";
 var GAMER_IMG = '<img src="img/gamer.png" />';
 var BALL_IMG = '<img src="img/ball.png" />';
 
+var numOfBalls = 0;
 var gBoard;
 var gGamerPos;
 function initGame() {
@@ -111,6 +112,7 @@ function moveTo(i, j) {
     (jAbsDiff === 1 && iAbsDiff === 0)
   ) {
     if (targetCell.gameElement === BALL) {
+      increaseNumberOfBalls();
       console.log("Collecting!");
     }
 
@@ -163,4 +165,16 @@ function getClassName(location) {
   var cellClass = "cell-" + location.i + "-" + location.j;
   console.log("cellClass:", cellClass);
   return cellClass;
+}
+
+// Increase the number of balls
+function increaseNumberOfBalls() {
+  ++numOfBalls;
+  renderNumberOfBalls(numOfBalls);
+}
+
+// Render the number of balls
+function renderNumberOfBalls(numOfBalls) {
+  var elNumOfBalls = document.querySelector("#numOfBalls");
+  elNumOfBalls.innerHTML = `balls: ${numOfBalls}`;
 }
