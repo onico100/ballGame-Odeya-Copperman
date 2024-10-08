@@ -42,7 +42,15 @@ function buildBoard() {
       ) {
         cell.type = WALL;
       }
-
+      //add holes
+      if (
+        (i == 0 && j == 6) ||
+        (i == board.length - 1 && j == 6) ||
+        (i == 4 && j == 0) ||
+        (i == 4 && j == board[0].length - 1)
+      ) {
+        cell.type = FLOOR;
+      }
       // Add created cell to The game board
       board[i][j] = cell;
     }
@@ -103,7 +111,15 @@ function renderBoard(board) {
 
 // Move the player to a specific location
 function moveTo(i, j) {
+  var hall = true;
+  if (i === -1 && j === 6) i = gBoard.length - 1;
+  else if (i === gBoard.length && j === 6) i = 0;
+  else if (i === 4 && j === -1) j = gBoard[0].length - 1;
+  else if (i === 4 && j === gBoard[0].length) j = 0;
+  else hall = false;
+
   var targetCell = gBoard[i][j];
+  console.log(targetCell.type);
   if (targetCell.type === WALL) return;
 
   // Calculate distance to make sure we are moving to a neighbor cell
@@ -112,6 +128,7 @@ function moveTo(i, j) {
 
   // If the clicked Cell is one of the four allowed
   if (
+    hall ||
     (iAbsDiff === 1 && jAbsDiff === 0) ||
     (jAbsDiff === 1 && iAbsDiff === 0)
   ) {
@@ -132,6 +149,7 @@ function moveTo(i, j) {
     // Model:
     gGamerPos.i = i;
     gGamerPos.j = j;
+    console.log("Moved to: " + gGamerPos.i + "," + gGamerPos.j);
     gBoard[gGamerPos.i][gGamerPos.j].gameElement = GAMER;
     // DOM:
     renderCell(gGamerPos, GAMER_IMG);
@@ -218,3 +236,5 @@ function restart() {
   clearInterval(gInterval);
   initGame();
 }
+
+function isHall(i, j) {}
